@@ -188,3 +188,72 @@ a.link-menu.ativo {
 .botao-salvar:hover {
     background-color: #006400; /* Verde escuro */
 }
+
+/* --- Estilos para o Cadastro de Professores --- */
+
+.grid-form-basico {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.nota-regra {
+    background-color: #fffacd; /* Amarelo claro para notas de regra */
+    border-left: 5px solid #ffcc00;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* --- Estilos de Tabela --- */
+
+.tabela-dados {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tabela-dados th, .tabela-dados td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabela-dados th {
+    background-color: var(--ifro-azul-claro);
+    color: var(--ifro-branco);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.tabela-dados tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Botões de Ação na Tabela */
+.botao-acao {
+    padding: 6px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.botao-editar {
+    background-color: #3e8ed0; /* Azul */
+    color: white;
+}
+.botao-editar:hover {
+    background-color: #307ac3;
+}
+
+.botao-remover {
+    background-color: var(--ifro-vermelho);
+    color: white;
+}
+.botao-remover:hover {
+    background-color: #a00000;
+}
