@@ -53,7 +53,93 @@
                 </section>
             
             <section id="cadastro-professores" class="aba-conteudo" style="display:none;">
-                <h3 class="titulo-aba">🧑‍🏫 Cadastro de Professores</h3>
+                <h3 class="titulo-aba">🧑‍🏫 Cadastro de Professores e Restrições</h3>
+                
+                <form id="form-cadastro-professor" class="formulario-cadastro">
+                    <h4>Dados Pessoais e Carga Horária</h4>
+                    <div class="grid-form-basico">
+                        <div class="grupo-campo">
+                            <label for="siape">SIAPE/CPF:</label>
+                            <input type="text" id="siape" name="siape" placeholder="Ex: 1234567" required>
+                        </div>
+                        <div class="grupo-campo">
+                            <label for="nome_professor">Nome Completo:</label>
+                            <input type="text" id="nome_professor" name="nome_professor" placeholder="Nome Completo do Professor" required>
+                        </div>
+                        <div class="grupo-campo">
+                            <label for="ch_aulas">CH Aulas (Máx Semanal):</label>
+                            <input type="number" id="ch_aulas" name="ch_aulas" value="16" min="0" required>
+                        </div>
+                        <div class="grupo-campo">
+                            <label for="ch_pgd">CH PGD (Máx Semanal):</label>
+                            <input type="number" id="ch_pgd" name="ch_pgd" value="4" min="0" required>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h4>Restrições de Horário (PGD, PRD, Outros)</h4>
+                    <p class="nota-regra">Defina o dia e período em que o professor **não pode** ter aulas (PGD, PRD, Licença, etc.).</p>
+
+                    <div class="grid-form-basico">
+                        <div class="grupo-campo">
+                            <label for="prd_principal_dia">PGD/PRD Principal (Dia):</label>
+                            <select id="prd_principal_dia" name="prd_principal_dia">
+                                <option value="">Nenhuma Restrição Principal</option>
+                                <option value="SEGUNDA">Segunda-feira</option>
+                                <option value="TERCA">Terça-feira</option>
+                                <option value="QUARTA">Quarta-feira</option>
+                                <option value="QUINTA">Quinta-feira</option>
+                                <option value="SEXTA">Sexta-feira</option>
+                            </select>
+                        </div>
+                        <div class="grupo-campo">
+                            <label for="prd_principal_periodo">PGD/PRD Principal (Período):</label>
+                            <select id="prd_principal_periodo" name="prd_principal_periodo">
+                                <option value="">--</option>
+                                <option value="INTEIRO">Dia Inteiro</option>
+                                <option value="MATUTINO">Matutino</option>
+                                <option value="VESPERTINO">Vespertino</option>
+                                <option value="NOTURNO">Noturno</option>
+                            </select>
+                        </div>
+                        <div class="grupo-campo">
+                            <label for="pgd_secundario">PGD/Outras Aulas (Slots)</label>
+                            <input type="text" id="pgd_secundario" name="pgd_secundario" placeholder="Ex: 2xSeg-M, 1xQua-N (Opcional)">
+                            <small>Use a C.H. PGD acima para limitar.</small>
+                        </div>
+                        <div class="grupo-campo">
+                             <label for="dispensa_11h">Dispensa 11h:</label>
+                             <select id="dispensa_11h" name="dispensa_11h">
+                                <option value="NAO">Não (Regra 11h de descanso se aplica)</option>
+                                <option value="SIM">Sim (Permite aula de manhã após noite)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="botao-salvar" data-save-target="professor">💾 SALVAR PROFESSOR</button>
+                    <button type="button" class="botao-acao botao-remover" onclick="limparFormularioProfessor()">✖️ NOVO / LIMPAR</button>
+                </form>
+
+                <hr>
+                
+                <h4>Lista de Professores Cadastrados</h4>
+                <div id="professores-lista-tabela">
+                    <table class="tabela-dados">
+                        <thead>
+                            <tr>
+                                <th>SIAPE</th>
+                                <th>Nome</th>
+                                <th>CH Aulas</th>
+                                <th>Restrição Principal</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-corpo-professores">
+                            </tbody>
+                    </table>
+                </div>
+
             </section>
             
             <section id="cadastro-horarios" class="aba-conteudo" style="display:none;">
