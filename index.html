@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFRO | Ferramenta de Geração de Horários</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header id="cabecalho-institucional">
+        <div class="logo-area">
+            <img src="https://via.placeholder.com/80x80?text=LOGO" alt="Logo IFRO">
+        </div>
+        <div class="dados-institucionais">
+            <h1>INSTITUTO FEDERAL DE RONDÔNIA</h1>
+            <h2>CAMPUS CACOAL</h2>
+            <p>DEPARTAMENTO DE APOIO AO ENSINO</p>
+            <h3>COORDENAÇÃO DE DESENVOLVIMENTO DE FERRAMENTAS PEDAGÓGICAS</h3>
+        </div>
+    </header>
+
+    <div id="container-principal">
+        <aside id="barra-lateral">
+            <nav id="menu-principal">
+                <a href="#instituicao-cadastro" class="link-menu ativo">🏛️ Instituição</a>
+                
+                <p class="titulo-menu">⚙️ CADASTROS BASE</p>
+                <div class="submenu">
+                    <a href="#cadastro-professores" class="sub-link-menu">🧑‍🏫 Professores</a>
+                    <a href="#cadastro-horarios" class="sub-link-menu">⏰ Horários (Turnos)</a>
+                    <a href="#cadastro-turmas" class="sub-link-menu">📚 Turmas</a>
+                    <a href="#cadastro-disciplinas" class="sub-link-menu">📝 Disciplinas</a>
+                </div>
+
+                <p class="titulo-menu">📅 CALENDÁRIO</p>
+                <div class="submenu">
+                    <a href="#cadastro-calendario-integrado" class="sub-link-menu">Integrado</a>
+                    <a href="#cadastro-calendario-superior" class="sub-link-menu">Superior</a>
+                </div>
+
+                <p class="titulo-menu">📊 GERAÇÃO & RELATÓRIOS</p>
+                <div class="submenu">
+                    <a href="#horario-base-gerar" class="sub-link-menu">Gerar Horário Base</a>
+                    <a href="#relatorios" class="sub-link-menu">Relatórios/PDF</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main id="conteudo-principal">
+            <section id="instituicao-cadastro" class="aba-conteudo">
+                <h3 class="titulo-aba">🏛️ Configurações Institucionais</h3>
+                <p>Aqui serão definidos dados globais como ano letivo, sede e regras básicas da instituição.</p>
+                </section>
+            
+            <section id="cadastro-professores" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">🧑‍🏫 Cadastro de Professores</h3>
+            </section>
+            
+            <section id="cadastro-horarios" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">⏰ Cadastro de Horários (Turnos)</h3>
+            </section>
+            
+            <section id="cadastro-turmas" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">📚 Cadastro de Turmas</h3>
+            </section>
+
+            <section id="cadastro-disciplinas" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">📝 Cadastro de Disciplinas</h3>
+            </section>
+
+            <section id="cadastro-calendario-integrado" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">🗓️ Calendário - Cursos Integrados</h3>
+            </section>
+
+            <section id="cadastro-calendario-superior" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">🗓️ Calendário - Cursos Superiores</h3>
+            </section>
+
+            <section id="horario-base-gerar" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">📅 Geração de Horário Base</h3>
+            </section>
+            
+            <section id="relatorios" class="aba-conteudo" style="display:none;">
+                <h3 class="titulo-aba">📊 Relatórios e Exportação</h3>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
