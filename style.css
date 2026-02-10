@@ -8,52 +8,177 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     
     <style>
-        :root { --verde: #32a041; --vermelho: #c31e24; --azul: #2980b9; --bg: #f4f7f6; --sidebar: #2c3e50; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background: var(--bg); overflow: hidden; }
+        :root { 
+            --if-verde: #32a041; 
+            --if-vermelho: #c31e24; 
+            --if-branco: #ffffff;
+            --if-cinza-claro: #f4f4f4;
+            --if-cinza-escuro: #666666;
+            --sidebar-dark: #1e272e;
+            --azul-acao: #2980b9;
+            --relevo-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #ffffff;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            background: var(--if-cinza-claro); 
+            overflow: hidden; 
+        }
         
-        /* Sidebar e Navegação */
-        .sidebar { width: 260px; height: 100vh; background: var(--sidebar); color: white; padding: 15px; box-sizing: border-box; }
-        .logo-area { text-align: center; border-bottom: 2px solid var(--verde); padding-bottom: 10px; margin-bottom: 15px; }
-        .ano-seletor { width: 100%; padding: 8px; background: #34495e; color: white; border: none; border-radius: 4px; font-weight: bold; }
-        .menu-nav button { width: 100%; padding: 12px; margin: 3px 0; background: transparent; border: none; color: #ecf0f1; text-align: left; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; }
-        .menu-nav button:hover, .menu-nav button.active { background: #34495e; border-left-color: var(--verde); }
+        /* Sidebar Profissional */
+        .sidebar { 
+            width: 280px; 
+            height: 100vh; 
+            background: var(--sidebar-dark); 
+            color: white; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
 
-        /* Área Principal */
-        .main-content { flex: 1; height: 100vh; overflow-y: auto; padding: 25px; box-sizing: border-box; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .hidden { display: none; }
+        /* Logo em Alto Relevo */
+        .logo-area { 
+            text-align: center; 
+            background: var(--if-branco);
+            padding: 20px 10px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: var(--relevo-shadow); /* Efeito Neomorfismo */
+            border-bottom: 5px solid var(--if-verde);
+        }
 
-        /* Formulários e Tabelas */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box; }
-        fieldset { border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; padding: 15px; }
-        legend { font-weight: bold; color: var(--verde); }
+        .logo-area h2 { 
+            color: var(--if-verde); 
+            margin: 10px 0 0 0; 
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 0px #fff;
+        }
 
-        .excel-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
-        .excel-table th, .excel-table td { border: 1px solid #ccc; padding: 4px; text-align: center; overflow: hidden; }
-        .excel-table th { background: #f2f2f2; height: 35px; }
-        .h-label { background: #ecf0f1; font-weight: bold; width: 100px; }
-        .break-cell { background: #dfe6e9; color: #636e72; font-weight: bold; }
-        .drop-zone { height: 50px; cursor: pointer; background: #fff; transition: 0.2s; }
-        .drop-zone:hover { background: #f1f2f6; }
+        .logo-area .if-sub {
+            color: var(--if-vermelho);
+            font-weight: bold;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
 
-        /* Botões */
-        .btn-verde { background: var(--verde); color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .btn-azul { background: var(--azul); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        .ano-seletor { 
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 15px;
+            background: #f8f9fa; 
+            color: var(--sidebar-dark); 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer;
+        }
+
+        /* Navegação */
+        .menu-nav button { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 5px 0; 
+            background: transparent; 
+            border: none; 
+            color: #d1d8e0; 
+            text-align: left; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .menu-nav button:hover, .menu-nav button.active { 
+            background: var(--if-verde); 
+            color: white; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateX(5px);
+        }
+
+        /* Área Principal e Cards */
+        .main-content { flex: 1; height: 100vh; overflow-y: auto; padding: 40px; box-sizing: border-box; }
         
-        /* Matriz de Restrições */
-        .rest-table input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: var(--relevo-shadow); 
+            margin-bottom: 30px; 
+            border-left: 8px solid var(--if-verde);
+        }
+
+        h3 { color: var(--if-verde); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        /* Formulários Customizados */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        
+        input, select { 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--if-verde); outline: none; box-shadow: 0 0 5px rgba(50,160,65,0.2); }
+
+        /* Botões com Estilo IFRO */
+        .btn-verde { 
+            background: var(--if-verde); 
+            color: white; 
+            border: none; 
+            padding: 14px 25px; 
+            cursor: pointer; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 0px #267a32;
+            transition: 0.2s;
+        }
+
+        .btn-verde:active { transform: translateY(3px); box-shadow: 0 1px 0px #267a32; }
+
+        .btn-azul { 
+            background: var(--azul-acao); 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            transition: 0.3s;
+        }
+
+        /* Grades e Tabelas */
+        .excel-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        .excel-table th { background: var(--if-verde); color: white; padding: 12px; font-weight: 500; }
+        .excel-table td { border: 1px solid #eee; background: white; }
+        .h-label { background: #f9f9f9; color: var(--if-verde); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<aside class="sidebar">
-    <div class="logo-area">
-        <h3>SGH - IFRO</h3>
-        <select id="global-ano" class="ano-seletor" onchange="trocarAno()">
-            <option value="2025">2025</option><option value="2026" selected>2026</option>
-            <option value="2027">2027</option><option value="2028">2028</option>
-            <option value="2029">2029</option><option value="2030">2030</option>
+<aside class="sidebar no-print">
+    <div class="logo-container">
+        <svg width="60" height="60" viewBox="0 0 100 100">
+            <circle cx="25" cy="25" r="15" fill="#32a041"/>
+            <rect x="50" y="10" width="20" height="20" fill="#32a041"/>
+            <rect x="75" y="10" width="20" height="20" fill="#32a041"/>
+            <rect x="50" y="35" width="20" height="20" fill="#32a041"/>
+            <rect x="75" y="35" width="20" height="20" fill="#c31e24"/>
+        </svg>
+        <h2>SGH-IFRO</h2>
+        <span></span>
+        <div style="margin-top: 15px;">
+            <select id="global-ano" class="ano-seletor" onchange="trocarAno()">
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
         </select>
     </div>
     <nav class="menu-nav" id="main-nav">
@@ -71,6 +196,16 @@
 </aside>
 
 <main class="main-content">
+<section id="aba-home" class="tab-content">
+    <div class="card" style="text-align: center; padding: 60px;">
+        <h1 style="color: var(--if-verde); font-size: 2.5em; margin-bottom: 10px;">Sistema de Gestão de Horários</h1>
+        <p style="font-size: 1.2em; color: var(--if-cinza);">Instituto Federal de Educação, Ciência e Tecnologia de Rondônia</p>
+        <div style="margin: 40px auto; width: 150px; height: 150px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;">
+             <strong style="color: var(--if-verde); font-size: 3em;">IF</strong>
+        </div>
+        <p>Utilize o menu lateral para iniciar os cadastros do ano de <strong id="display-ano">2026</strong>.</p>
+    </div>
+</section>
     <section id="aba-0" class="tab-content">
         <div class="card">
             <h3>1. DADOS DA INSTITUIÇÃO</h3>
