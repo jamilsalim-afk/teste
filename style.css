@@ -1,259 +1,330 @@
-/* Definição das Cores Institucionais do IFRO */
-:root {
-    --ifro-verde: #008000; /* Verde institucional */
-    --ifro-vermelho: #CC0000; /* Vermelho institucional */
-    --ifro-branco: #FFFFFF;
-    --ifro-azul-claro: #145da0; /* Azul escuro/Marinho para o cabeçalho/menu */
-    --fundo-cinza: #f4f4f9;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGH - IFRO | Gestão 2025-2030</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
+    <style>
+        :root { --verde: #32a041; --vermelho: #c31e24; --azul: #2980b9; --bg: #f4f7f6; --sidebar: #2c3e50; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; background: var(--bg); overflow: hidden; }
+        
+        /* Sidebar e Navegação */
+        .sidebar { width: 260px; height: 100vh; background: var(--sidebar); color: white; padding: 15px; box-sizing: border-box; }
+        .logo-area { text-align: center; border-bottom: 2px solid var(--verde); padding-bottom: 10px; margin-bottom: 15px; }
+        .ano-seletor { width: 100%; padding: 8px; background: #34495e; color: white; border: none; border-radius: 4px; font-weight: bold; }
+        .menu-nav button { width: 100%; padding: 12px; margin: 3px 0; background: transparent; border: none; color: #ecf0f1; text-align: left; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; }
+        .menu-nav button:hover, .menu-nav button.active { background: #34495e; border-left-color: var(--verde); }
 
-/* Reset Básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+        /* Área Principal */
+        .main-content { flex: 1; height: 100vh; overflow-y: auto; padding: 25px; box-sizing: border-box; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .hidden { display: none; }
 
-body {
-    background-color: var(--fundo-cinza);
-    color: #333;
-}
+        /* Formulários e Tabelas */
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box; }
+        fieldset { border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; padding: 15px; }
+        legend { font-weight: bold; color: var(--verde); }
 
-/* --- CABEÇALHO INSTITUCIONAL --- */
-#cabecalho-institucional {
-    display: flex;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: var(--ifro-branco);
-    color: var(--ifro-azul-claro);
-    border-bottom: 4px solid var(--ifro-verde);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+        .excel-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+        .excel-table th, .excel-table td { border: 1px solid #ccc; padding: 4px; text-align: center; overflow: hidden; }
+        .excel-table th { background: #f2f2f2; height: 35px; }
+        .h-label { background: #ecf0f1; font-weight: bold; width: 100px; }
+        .break-cell { background: #dfe6e9; color: #636e72; font-weight: bold; }
+        .drop-zone { height: 50px; cursor: pointer; background: #fff; transition: 0.2s; }
+        .drop-zone:hover { background: #f1f2f6; }
 
-.logo-area img {
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    margin-right: 20px;
-    border: 3px solid var(--ifro-vermelho);
-}
+        /* Botões */
+        .btn-verde { background: var(--verde); color: white; border: none; padding: 12px 20px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        .btn-azul { background: var(--azul); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        
+        /* Matriz de Restrições */
+        .rest-table input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
 
-.dados-institucionais h1 {
-    font-size: 1.8em;
-    color: var(--ifro-azul-claro);
-    margin: 0;
-}
-.dados-institucionais h2 {
-    font-size: 1.2em;
-    color: var(--ifro-vermelho);
-    margin: 2px 0;
-}
-.dados-institucionais p {
-    font-size: 0.9em;
-    color: #666;
-    margin: 0;
-}
-.dados-institucionais h3 {
-    font-size: 1em;
-    color: var(--ifro-verde);
-    margin-top: 5px;
-}
+<aside class="sidebar">
+    <div class="logo-area">
+        <h3>SGH - IFRO</h3>
+        <select id="global-ano" class="ano-seletor" onchange="trocarAno()">
+            <option value="2025">2025</option><option value="2026" selected>2026</option>
+            <option value="2027">2027</option><option value="2028">2028</option>
+            <option value="2029">2029</option><option value="2030">2030</option>
+        </select>
+    </div>
+    <nav class="menu-nav" id="main-nav">
+        <button onclick="showTab(0)">1. Instituição</button>
+        <button onclick="showTab(1)">2. Professores</button>
+        <button onclick="showTab(2)">3. Turmas</button>
+        <button onclick="showTab(3)">4. Disciplinas</button>
+        <button onclick="showTab(4)">5. Vinculação</button>
+        <button onclick="showTab(5)">6. Horário Base Téc.</button>
+        <button onclick="showTab(6)">7. Horário Base Sup.</button>
+        <button onclick="showTab(7)">8. Semanal Técnico</button>
+        <button onclick="showTab(8)">9. Semanal Superior</button>
+        <button onclick="showTab(9)">10. Relatórios</button>
+    </nav>
+</aside>
 
-/* --- CONTAINER PRINCIPAL (Barra Lateral + Conteúdo) --- */
-#container-principal {
-    display: flex;
-    min-height: calc(100vh - 110px); /* Altura da tela menos o cabeçalho */
-}
+<main class="main-content">
+    <section id="aba-0" class="tab-content">
+        <div class="card">
+            <h3>1. DADOS DA INSTITUIÇÃO</h3>
+            <div class="form-grid">
+                <input type="text" id="inst-nome" placeholder="A - Nome da Instituição">
+                <input type="text" id="inst-setor" placeholder="B - Setor">
+                <input type="text" id="inst-end" placeholder="C - Endereço">
+                <input type="text" id="inst-tel" placeholder="D - Telefone">
+            </div>
+            <div class="form-grid">
+                <fieldset><legend>E - Calendário Técnico (Anual)</legend>
+                    Início: <input type="date" id="cal-tec-ini"> Fim: <input type="date" id="cal-tec-fim">
+                    Férias: <input type="date" id="cal-tec-v-ini"> a <input type="date" id="cal-tec-v-fim">
+                </fieldset>
+                <fieldset><legend>F - Calendário Superior (Semestral)</legend>
+                    S1: <input type="date" id="cal-sup1-ini"> a <input type="date" id="cal-sup1-fim"><br>
+                    S2: <input type="date" id="cal-sup2-ini"> a <input type="date" id="cal-sup2-fim">
+                </fieldset>
+            </div>
+            <div class="form-grid">
+                <div class="card-mini">
+                    <h4>G - Feriados</h4>
+                    <input type="date" id="fer-data"> <input type="text" id="fer-nome" placeholder="Feriado">
+                    <button class="btn-azul" onclick="addItem('feriados')">Adicionar</button>
+                    <div id="lista-feriados"></div>
+                </div>
+                <div class="card-mini">
+                    <h4>H - Sábados Letivos</h4>
+                    <input type="date" id="sab-data">
+                    <select id="sab-tipo"><option value="Tecnico">Técnico</option><option value="Superior">Superior</option></select>
+                    <button class="btn-azul" onclick="addItem('sabados')">Adicionar</button>
+                    <div id="lista-sabados"></div>
+                </div>
+            </div>
+            <button class="btn-verde" onclick="salvarGeral()">I - SALVAR DADOS</button>
+        </div>
+    </section>
 
-/* --- BARRA LATERAL (MENU) --- */
-#barra-lateral {
-    width: 250px;
-    background-color: var(--ifro-branco);
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-}
+    <section id="aba-1" class="tab-content hidden">
+        <div class="card">
+            <h3>2. CADASTRO DE PROFESSORES</h3>
+            <div class="form-grid">
+                <input type="text" id="p-nome" placeholder="Nome">
+                <input type="text" id="p-siape" placeholder="SIAPE">
+                <select id="p-sit"><option>EFETIVO</option><option>SUBSTITUTO</option><option>CEDIDO</option></select>
+                <select id="p-ch"><option value="DE">DE</option><option value="40">40 HORAS</option><option value="20">20 HORAS</option></select>
+                <div>PGD: <input type="checkbox" id="p-pgd-check" onchange="document.getElementById('p-pgd-val').disabled = !this.checked">
+                <input type="number" id="p-pgd-val" placeholder="%" style="width:70px" disabled></div>
+            </div>
+            <h4>F - MATRIZ DE RESTRIÇÕES (CHECKBOX)</h4>
+            <table class="excel-table rest-table">
+                <thead><tr><th>Opção / Dia</th><th>SEG</th><th>TER</th><th>QUA</th><th>QUI</th><th>SEX</th></tr></thead>
+                <tbody id="p-matriz-corpo"></tbody>
+            </table>
+            <h4>G - DIAS DE PRD</h4>
+            <div class="form-grid">
+                <select id="p-prd1"><option value="">Turno PRD 1</option><option>Segunda-Manhã</option><option>Segunda-Tarde</option><option>Terça-Manhã</option></select>
+                <select id="p-prd2"><option value="">Turno PRD 2</option><option>Segunda-Manhã</option><option>Segunda-Tarde</option></select>
+            </div>
+            <button class="btn-verde" onclick="salvarProfessor()">H - SALVAR PROFESSOR</button>
+            <div id="p-lista" style="margin-top:20px"></div>
+        </div>
+    </section>
 
-#menu-principal {
-    display: flex;
-    flex-direction: column;
-}
+    <section id="aba-2" class="tab-content hidden">
+        <div class="card">
+            <h3>3. TURMAS</h3>
+            <div class="form-grid">
+                <input type="text" id="t-nome" placeholder="Nome da Turma">
+                <select id="t-sit"><option value="Tecnico">TÉCNICO</option><option value="Superior">SUPERIOR</option></select>
+                <input type="text" id="t-sala" placeholder="Sala">
+            </div>
+            <button class="btn-verde" onclick="salvarTurma()">D - SALVAR TURMA</button>
+            <div id="t-lista"></div>
+        </div>
+    </section>
 
-#menu-principal p.titulo-menu {
-    font-size: 0.9em;
-    font-weight: bold;
-    color: var(--ifro-azul-claro);
-    padding: 10px 20px 5px;
-    margin-top: 10px;
-    border-bottom: 1px solid #eee;
-}
+    <section id="aba-3" class="tab-content hidden">
+        <div class="card">
+            <h3>4. DISCIPLINAS</h3>
+            <div class="form-grid">
+                <input type="text" id="d-nome" placeholder="Nome da Disciplina">
+                <select id="d-sit"><option value="Tecnico">TÉCNICO</option><option value="Superior">SUPERIOR</option></select>
+            </div>
+            <button class="btn-verde" onclick="salvarDisciplina()">C - SALVAR DISCIPLINA</button>
+            <div id="d-lista"></div>
+        </div>
+    </section>
 
-#menu-principal a {
-    text-decoration: none;
-    padding: 12px 20px;
-    margin: 2px 0;
-    color: #333;
-    transition: background-color 0.2s, color 0.2s;
-    font-size: 1em;
-}
+    <section id="aba-4" class="tab-content hidden">
+        <div class="card">
+            <h3>5. VINCULAÇÃO PROFESSOR / TURMA / DISCIPLINA</h3>
+            <div class="form-grid">
+                <select id="v-prof"></select><select id="v-turma" onchange="gerarOpcoesAulas()"></select>
+                <select id="v-disc"></select><input type="number" id="v-ch" placeholder="CH Total" onchange="gerarOpcoesAulas()">
+            </div>
+            <div class="form-grid">
+                <select id="v-opcoes"></select>
+                <div>União? <input type="checkbox" id="v-uniao-check" onchange="document.getElementById('v-uniao-turma').style.display = this.checked ? 'block' : 'none'">
+                <select id="v-uniao-turma" style="display:none; margin-top:5px"></select></div>
+            </div>
+            <button class="btn-verde" onclick="salvarVinc()">G - SALVAR VÍNCULO</button>
+            <div id="v-lista"></div>
+        </div>
+    </section>
 
-/* Estilo para links de menu principal */
-a.link-menu {
-    font-weight: bold;
-    border-left: 5px solid transparent;
-}
+    <section id="aba-5" class="tab-content hidden">
+        <div class="card"><h3>6. HORÁRIO BASE TÉCNICO</h3><div id="grade-base-tec"></div><button class="btn-verde">SALVAR VERSÃO BASE</button></div>
+    </section>
+    <section id="aba-6" class="tab-content hidden">
+        <div class="card"><h3>7. HORÁRIO BASE SUPERIOR</h3><div id="grade-base-sup"></div><button class="btn-verde">SALVAR VERSÃO BASE</button></div>
+    </section>
 
-/* Estilo para sub-links */
-a.sub-link-menu {
-    padding-left: 30px;
-}
+    <section id="aba-7" class="tab-content hidden">
+        <div class="card">
+            <h3>8. HORÁRIO SEMANAL TÉCNICO</h3>
+            <div class="form-grid"><input type="date" id="data-sem-tec"> <button class="btn-azul">IMPORTAR DO BASE</button></div>
+            <div id="grade-sem-tec"></div>
+        </div>
+    </section>
+    <section id="aba-8" class="tab-content hidden">
+        <div class="card">
+            <h3>9. HORÁRIO SEMANAL SUPERIOR</h3>
+            <div class="form-grid"><input type="date" id="data-sem-sup"> <button class="btn-azul">IMPORTAR DO BASE</button></div>
+            <div id="grade-sem-sup"></div>
+        </div>
+    </section>
 
-#menu-principal a:hover {
-    background-color: #e6f7e6; /* Verde muito claro */
-}
+    <section id="aba-9" class="tab-content hidden">
+        <div class="card">
+            <h3>10. GERAÇÃO DE RELATÓRIOS</h3>
+            <div class="form-grid">
+                <button class="btn-azul" onclick="alert('Exportando Relatório por Disciplina...')">A - POR DISCIPLINA</button>
+                <button class="btn-azul" onclick="alert('Exportando Relatório por Turma...')">B - POR TURMA</button>
+                <button class="btn-azul" onclick="alert('Exportando Semanal Professor...')">C - SEMANAL PROFESSOR</button>
+                <button class="btn-azul" onclick="alert('Exportando Semanal Turma...')">D - SEMANAL TURMA</button>
+            </div>
+        </div>
+    </section>
+</main>
 
-#menu-principal a.ativo {
-    background-color: var(--ifro-verde);
-    color: var(--ifro-branco);
-    font-weight: bold;
-    border-left: 5px solid var(--ifro-vermelho);
-}
-a.link-menu.ativo {
-    border-left: 5px solid var(--ifro-vermelho);
-}
+<script>
+    // MOTOR DE DADOS DO SGH-IFRO
+    let DB = JSON.parse(localStorage.getItem('SGH_IFRO_CORE')) || {};
+    let ANO = "2026";
 
-/* --- CONTEÚDO PRINCIPAL --- */
-#conteudo-principal {
-    flex-grow: 1;
-    padding: 30px;
-    overflow-y: auto;
-}
+    const HORARIOS = [
+        "07:30 - 08:20", "08:20 - 09:10", "INTERVALO", "09:30 - 10:20", "10:20 - 11:10", "11:10 - 12:00", 
+        "ALMOÇO", "13:50 - 14:40", "14:40 - 15:30", "INTERVALO", "15:50 - 16:40", "16:40 - 17:30", "17:30 - 18:20", 
+        "JANTAR", "19:00 - 19:50", "19:50 - 20:40", "INTERVALO", "20:50 - 21:40", "21:40 - 22:30"
+    ];
 
-.aba-conteudo {
-    background-color: var(--ifro-branco);
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
+    const RESTS = ["Manhã Inteira", "Tarde Inteira", "Noite Inteira", "1ª Aula Manhã", "Última Aula Manhã", "1ª Aula Tarde", "Última Aula Tarde"];
 
-.titulo-aba {
-    color: var(--ifro-verde);
-    border-bottom: 2px solid var(--ifro-vermelho);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
+    function trocarAno() {
+        ANO = document.getElementById('global-ano').value;
+        if (!DB[ANO]) DB[ANO] = { inst:{}, profs:[], turmas:[], discs:[], vincs:[], feriados:[], sabados:[] };
+        renderAll();
+    }
 
-/* --- Estilos Genéricos de Formulário (usaremos muito) --- */
-.formulario-cadastro {
-    margin-bottom: 30px;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 6px;
-}
+    function showTab(idx) {
+        document.querySelectorAll('.tab-content').forEach((el, i) => el.classList.toggle('hidden', i !== idx));
+        if(idx === 1) renderMatrizRestricoes();
+        if(idx === 5) renderGrade('grade-base-tec', 'Tecnico');
+        if(idx === 6) renderGrade('grade-base-sup', 'Superior');
+    }
 
-.grupo-campo {
-    margin-bottom: 15px;
-}
+    // --- MATRIZ DE RESTRIÇÕES (COMANDO 2) ---
+    function renderMatrizRestricoes() {
+        const body = document.getElementById('p-matriz-corpo');
+        body.innerHTML = RESTS.map(r => `
+            <tr><td>Não trabalhar ${r}</td>
+            ${[0,1,2,3,4].map(d => `<td><input type="checkbox" class="p-rest-ck" data-dia="${d}" data-tipo="${r}"></td>`).join('')}
+            </tr>`).join('');
+    }
 
-.grupo-campo label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: var(--ifro-azul-claro);
-    font-size: 0.9em;
-}
+    // --- CADASTROS ---
+    function salvarProfessor() {
+        const p = {
+            nome: document.getElementById('p-nome').value,
+            siape: document.getElementById('p-siape').value,
+            situacao: document.getElementById('p-sit').value,
+            ch: document.getElementById('p-ch').value,
+            pgd: document.getElementById('p-pgd-check').checked ? document.getElementById('p-pgd-val').value : 0,
+            rests: Array.from(document.querySelectorAll('.p-rest-ck:checked')).map(c => ({dia: c.dataset.dia, tipo: c.dataset.tipo}))
+        };
+        DB[ANO].profs.push(p);
+        persistir();
+    }
 
-.grupo-campo input[type="text"],
-.grupo-campo input[type="number"],
-.grupo-campo select,
-.grupo-campo input[type="date"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-}
+    function salvarTurma() {
+        DB[ANO].turmas.push({ nome: document.getElementById('t-nome').value, situacao: document.getElementById('t-sit').value, sala: document.getElementById('t-sala').value });
+        persistir();
+    }
 
-.botao-salvar {
-    background-color: var(--ifro-verde);
-    color: var(--ifro-branco);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.2s;
-}
+    function salvarDisciplina() {
+        DB[ANO].discs.push({ nome: document.getElementById('d-nome').value, situacao: document.getElementById('d-sit').value });
+        persistir();
+    }
 
-.botao-salvar:hover {
-    background-color: #006400; /* Verde escuro */
-}
+    // --- VINCULAÇÃO (COMANDO 5E - LÓGICA DE AULAS) ---
+    function gerarOpcoesAulas() {
+        const ch = parseInt(document.getElementById('v-ch').value);
+        const tIdx = document.getElementById('v-turma').value;
+        if(!ch || tIdx === "") return;
+        
+        const tipo = DB[ANO].turmas[tIdx].situacao;
+        const aulasSemana = (tipo === 'Tecnico') ? (ch / 40) : (ch / 20);
+        const sel = document.getElementById('v-opcoes');
+        sel.innerHTML = "";
 
-/* --- Estilos para o Cadastro de Professores --- */
+        const map = { 1:["1 aula"], 2:["2 aulas"], 3:["2+1 aulas", "3 aulas"], 4:["2+2 aulas"], 5:["3+2 aulas"], 6:["3+3 aulas"] };
+        (map[aulasSemana] || []).forEach(o => sel.innerHTML += `<option>${o}</option>`);
+    }
 
-.grid-form-basico {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
+    // --- GRADE HORÁRIA (COMANDO 6) ---
+    function renderGrade(id, tipo) {
+        const turmas = (DB[ANO].turmas || []).filter(t => t.situacao === tipo);
+        let h = `<table class="excel-table"><thead><tr><th>Horário</th>`;
+        turmas.forEach(t => h += `<th>${t.nome} (Sala ${t.sala})</th>`);
+        h += `</tr></thead><tbody>`;
+        
+        HORARIOS.forEach(hr => {
+            h += `<tr><td class="h-label">${hr}</td>`;
+            turmas.forEach(t => {
+                const isBreak = hr === "INTERVALO" || hr === "ALMOÇO" || hr === "JANTAR";
+                h += `<td class="${isBreak ? 'break-cell' : 'drop-zone'}"></td>`;
+            });
+            h += `</tr>`;
+        });
+        document.getElementById(id).innerHTML = h + `</tbody></table>`;
+    }
 
-.nota-regra {
-    background-color: #fffacd; /* Amarelo claro para notas de regra */
-    border-left: 5px solid #ffcc00;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-    color: #555;
-}
+    function persistir() {
+        localStorage.setItem('SGH_IFRO_CORE', JSON.stringify(DB));
+        renderAll();
+        alert("Dados salvos no pente fino!");
+    }
 
-/* --- Estilos de Tabela --- */
+    function renderAll() {
+        const d = DB[ANO];
+        // Popula listas de visualização
+        document.getElementById('p-lista').innerHTML = "<b>Profs:</b> " + d.profs.map(p => p.nome).join(', ');
+        document.getElementById('t-lista').innerHTML = "<b>Turmas:</b> " + d.turmas.map(t => t.nome).join(', ');
+        document.getElementById('d-lista').innerHTML = "<b>Discs:</b> " + d.discs.map(disc => disc.nome).join(', ');
+        
+        // Popula selects de vinculação
+        document.getElementById('v-prof').innerHTML = d.profs.map((p,i) => `<option value="${i}">${p.nome}</option>`).join('');
+        document.getElementById('v-turma').innerHTML = d.turmas.map((t,i) => `<option value="${i}">${t.nome}</option>`).join('');
+        document.getElementById('v-uniao-turma').innerHTML = d.turmas.map((t,i) => `<option value="${i}">${t.nome}</option>`).join('');
+        document.getElementById('v-disc').innerHTML = d.discs.map((disc,i) => `<option value="${i}">${disc.nome}</option>`).join('');
+    }
 
-.tabela-dados {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.tabela-dados th, .tabela-dados td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-.tabela-dados th {
-    background-color: var(--ifro-azul-claro);
-    color: var(--ifro-branco);
-    font-weight: bold;
-    font-size: 0.9em;
-}
-
-.tabela-dados tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-/* Botões de Ação na Tabela */
-.botao-acao {
-    padding: 6px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-
-.botao-editar {
-    background-color: #3e8ed0; /* Azul */
-    color: white;
-}
-.botao-editar:hover {
-    background-color: #307ac3;
-}
-
-.botao-remover {
-    background-color: var(--ifro-vermelho);
-    color: white;
-}
-.botao-remover:hover {
-    background-color: #a00000;
-}
+    window.onload = trocarAno;
+</script>
+</body>
+</html>
