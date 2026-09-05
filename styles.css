@@ -1,0 +1,263 @@
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-btn.active { border-bottom: 4px solid #15803d; color: #15803d; font-weight: 800; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th { font-size: 11px !important; font-weight: 700 !important; text-transform: uppercase; padding: 6px 4px !important; }
+        td { font-size: 12px !important; padding: 8px !important; }
+        .tableGS { table-layout: auto; width: max-content; min-width: 100%; }
+        .tableGS td, .tableGS th { word-wrap: break-word; vertical-align: middle; text-align: center; border: 1px solid #e5e7eb; }
+        .tableGS th { font-size: 10px !important; padding: 4px !important; }
+        .tableGS td { font-size: 10px !important; padding: 4px !important; }
+        .aula-card { padding: 3px; margin: 1px; border-radius: 4px; line-height: 1.05; border-left: 3px solid #15803d; text-align: center; font-size: 9px; font-weight: 600; }
+        .status-normal { background-color: #f0fdf4; border-color: #15803d; }
+        .status-extra { background-color: #ecfdf5; border-color: #059669; color: #065f46; }
+        .status-reposicao { background-color: #eff6ff; border-color: #2563eb; color: #1e40af; }
+        .status-rec { background-color: #fdf2f8; border-color: #db2777; color: #9d174d; }
+        .status-exame { background-color: #f5f5f5; border-color: #4b5563; color: #1f2937; }
+        .intervalo-row { background-color: #f3f4f6 !important; color: #6b7280; font-weight: bold; text-transform: uppercase; font-size: 10px; }
+        
+        .filtros-geral{
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 20;
+            padding-bottom: 10px;
+        }
+
+        .grade-scroll{
+            max-height: 650px;
+            overflow-y: auto;
+        }
+        #dashboardContent > div {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            padding: 15px !important;
+            border-radius: 8px !important;
+        }
+
+        .info-card-title {
+            font-size: 12px !important;
+        }
+
+        .info-card-value {
+            font-size: 20px !important;
+            font-weight: bold;
+        }
+         #tabelaHorarioAnual tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* ==========================================
+           BOTÃO PADRÃO DE EXPORTAÇÃO EM PDF
+           Todo botão que gera PDF usa esta classe única,
+           garantindo mesmo tamanho, cor e comportamento
+           em qualquer aba do sistema.
+           ========================================== */
+        .btn-pdf {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: #15803d;
+            color: #fff;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: background-color 0.2s ease, transform 0.05s ease;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-pdf:hover {
+            background-color: #166534;
+        }
+        .btn-pdf:active {
+            transform: scale(0.98);
+        }
+        .btn-pdf:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ==========================================
+           SISTEMA DE BOTÕES — todas as famílias de
+           botão do sistema usam uma destas classes,
+           garantindo tamanho, fonte e cor consistentes.
+           ========================================== */
+        .btn-primary, .btn-secondary, .btn-danger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.05s ease;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:active, .btn-secondary:active, .btn-danger:active {
+            transform: scale(0.98);
+        }
+        .btn-primary:disabled, .btn-secondary:disabled, .btn-danger:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Ação principal de cada seção: Ver Grade, Gerar, Atualizar, Exibir... */
+        .btn-primary {
+            background-color: #2563eb;
+            color: #fff;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            padding: 12px 24px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Ação secundária: menor, menos destaque visual */
+        .btn-secondary {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            font-size: 11px;
+            padding: 6px 14px;
+        }
+        .btn-secondary:hover {
+            background-color: #bfdbfe;
+        }
+
+        /* Erro / ação destrutiva */
+        .btn-danger {
+            background-color: #b91c1c;
+            color: #fff;
+            font-size: 12px;
+            padding: 10px 20px;
+        }
+        .btn-danger:hover {
+            background-color: #991b1b;
+        }
+
+        @media (max-width: 767px) {
+            .btn-primary, .btn-secondary, .btn-danger {
+                width: 100%;
+            }
+        }
+
+        /* ==========================================
+           FICHA SEMANAL DO PROFESSOR (ABA 3) — versão
+           compacta no mobile, pra caber melhor na tela
+           sem precisar de tanta rolagem horizontal.
+           ========================================== */
+        @media (max-width: 767px) {
+            #tableGS th:first-child, #tableGSTurma th:first-child,
+            #tableGS td:first-child, #tableGSTurma td:first-child {
+                width: 46px !important;
+                min-width: 46px !important;
+            }
+            #tableGS th, #tableGSTurma th,
+            #tableGS td, #tableGSTurma td {
+                font-size: 8px !important;
+                padding: 2px !important;
+            }
+            /* Cada aula dentro da célula é um <div> sem classe própria;
+               este seletor os alcança pela posição dentro da tabela. */
+            #tableGS td > div, #tableGSTurma td > div {
+                padding: 1px !important;
+                margin-bottom: 1px !important;
+            }
+            #tableGS td > div > div, #tableGSTurma td > div > div {
+                font-size: 7px !important;
+                line-height: 1.05 !important;
+            }
+        }
+
+        /* ==========================================
+           RELATÓRIO ANUAL DA TURMA (ABA 2) — versão
+           compacta no mobile.
+           ========================================== */
+        @media (max-width: 767px) {
+            #tablePivo th:first-child,
+            #tablePivo td:first-child {
+                width: 90px !important;
+                min-width: 90px !important;
+            }
+            #tablePivo th, #tablePivo td {
+                font-size: 8px !important;
+                padding: 3px !important;
+            }
+        }
+
+        /* ==========================================
+           RELATÓRIO DE DISCIPLINA (ABA 1) — versão
+           compacta no mobile.
+           ========================================== */
+        @media (max-width: 767px) {
+            #tableD th, #tableD td {
+                font-size: 10px !important;
+                padding: 4px !important;
+            }
+        }
+
+        /* ==========================================
+           RELATÓRIO POR PROFESSOR (ABA 4) — Executado /
+           Previsto / Diferença. Bordas em todas as células
+           (estilo grade do Excel) e versão compacta no mobile.
+           ========================================== */
+        .tabela-excel th, .tabela-excel td {
+            border: 1px solid #d1d5db;
+        }
+        @media (max-width: 767px) {
+            .tabela-excel th, .tabela-excel td {
+                font-size: 8px !important;
+                padding: 3px !important;
+            }
+        }
+
+        /* ==========================================
+           HORÁRIO ANUAL DO PROFESSOR (ABA 5) — fonte
+           1px menor no mobile (de 11px para 10px).
+           ========================================== */
+        @media (max-width: 767px) {
+            #tabelaHorarioAnual th, #tabelaHorarioAnual td {
+                font-size: 10px !important;
+            }
+        }
+
+        /* ==========================================
+           AJUSTES DE COMPATIBILIDADE MOBILE / TABLET
+           ========================================== */
+        @media (max-width: 767px) {
+            /* Grades de horário ficam mais altas que a viewport em celulares;
+               reduz a altura da área de rolagem interna para não competir
+               com a rolagem da página inteira. */
+            .grade-scroll {
+                max-height: 420px;
+            }
+
+            /* Fonte um pouco maior nas demais grades (Turma, Geral, Sábados),
+               para leitura/toque confortável em telas pequenas. */
+            .tableGS td, .tableGS th {
+                font-size: 11px !important;
+            }
+
+            /* Botões que ocupam a largura toda em telas estreitas, evitando
+               que fiquem espremidos lado a lado. */
+            .btn-pdf {
+                width: 100%;
+            }
+        }
